@@ -8,6 +8,10 @@ console.log('Welcome to the GitHub Avatar Downloaders!');
 
 	function getRepoContributors(repoOwner, repoName, cb){
 
+		if (!process.argv[2] || !process.argv[3]){
+			console.log('Input error: missing repository owner and/or repository name');
+		}
+
 		var options = {  
 		  url: `https://api.github.com/repos/${repoOwner}/${repoName}/contributors`,
 		  headers: {
@@ -21,12 +25,12 @@ console.log('Welcome to the GitHub Avatar Downloaders!');
 		  });
 	}
 
-	getRepoContributors("jquery", "jquery", function(err,result){
+	getRepoContributors(process.argv[2], process.argv[3], function(err,result){
 	      console.log("Errors: ", err);
 		  
 		  for (var i = 0; i < result.length; i++) {
 			var xAvatar = result[i].avatar_url;
-			var path = "./avatars/" + result[i].login + result[i].id;
+			var path = "./avatars/" + result[i].login + result[i].id + ".png";
 			// console.log(avatar);
     
            downloadImageByURL(xAvatar, path);
